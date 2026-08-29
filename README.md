@@ -2,6 +2,7 @@
   <img src="./logo.png" alt="Fofoca Transcriptor Logo" width="200">
   <h1>🦭 Fofoca Transcriptor</h1>
   <p><b>A local, free, and smart ecosystem for audio, video, and text processing.</b></p>
+  <p><i>Created by <b>Sueli da Hora Moreira</b></i></p>
   <p>Designed for productivity, privacy, autonomy, and language studies without paywalls or size limits.</p>
 </div>
 
