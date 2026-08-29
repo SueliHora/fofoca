@@ -1,57 +1,135 @@
-# 🦭 Fofoca™ Ecosystem
-
-> Um ecossistema local, inteligente e **100% gratuito** para processamento de áudio, vídeo e texto, feito para quem busca produtividade, autonomia e estudos de idiomas sem esbarrar em paywalls ou limites de tamanho.
-
-<p align="center">
-  <img src="logo/logo.png" alt="Fofoca Logo" width="300" style="border-radius: 50%;">
-</p>
-
----
-
-## 📂 Arquitetura do Projeto
-
-O repositório é dividido em módulos especializados:
-
-1. **`audio-to-text/`**: Transcrição local de alta precisão usando **OpenAI Whisper** (suporta áudios e vídeos, com detecção automática de idioma e minutagens).
-2. **`text-to-audio/`**: Módulo de síntese de voz (Text-to-Speech) para conversão de roteiros em arquivos de áudio.
+<div align="center">
+  <img src="./logo.png" alt="Fofoca Transcriptor Logo" width="200">
+  <h1>🦭 Fofoca Transcriptor</h1>
+  <p><b>A local, free, and smart ecosystem for audio, video, and text processing.</b></p>
+  <p>Designed for productivity, privacy, autonomy, and language studies without paywalls or size limits.</p>
+</div>
 
 ---
 
-## 🚀 Tecnologias Utilizadas
+## 🚀 About the Project
 
-* **Python 3.10+**
-* **OpenAI Whisper**
-* **FFmpeg**
-* **uv** (Gerenciador de dependências)
+**Fofoca Transcriptor** is a personal, modular toolkit built in Python to handle media transcription and text-to-speech synthesis entirely offline. Powered by state-of-the-art open-source AI models, it gives you complete control over your files, running safely right on your local machine.
 
 ---
 
-## 📦 Como Usar o Módulo Audio-to-Text
+## 🛠️ Modules & Architecture
 
-1. Sincronize o ambiente com o `uv`:
+The repository is organized into independent, modular subprojects:
+
+1. **`audio-to-text/`**
+   * **Engine:** OpenAI Whisper
+   * **Features:** Intelligent transcription of audio and video files into precise text, complete with timestamps and zero cloud costs.
+2. **`text-to-audio/`**
+   * **Engine:** gTTS (Google Text-to-Speech)
+   * **Features:** Converts raw text files into natural-sounding audio (.mp3), ideal for listening on the go or practicing languages.
+
+---
+
+## 📂 Project Structure
+
+```text
+fofoca/
+├── assets/           # Project visual assets
+├── audio-to-text/
+│   ├── input/        # Place your source audio/video files here
+│   ├── output/       # Generated transcripts
+│   └── src/          # Transcription scripts
+├── text-to-audio/
+│   ├── input/        # Text documents (.txt) to be spoken
+│   ├── output/       # Generated audio files (.mp3)
+│   └── src/          # Text-to-speech scripts
+├── logo.png          # Project logo
+├── pyproject.toml    # Project dependencies and configuration (managed by uv)
+└── README.md         # Project documentation
+```
+
+---
+
+## 🔧 Getting Started
+
+### Prerequisites
+
+* Python 3.10+
+* FFmpeg (for audio/video processing)
+* uv (dependency manager)
+
+### Installation
+
+1. Initialize the Python environment and install dependencies:
 
    ```bash
    uv sync
    ```
 
-2. Coloque seus arquivos de áudio ou vídeo na pasta `input/`.
-3. Execute o script:
+---
+
+## 📖 Sample Data & Dedication
+
+As an example of our Text-to-Speech pipeline, this repository includes a sample reading of Ecclesiastes 3 (*"For everything there is a season, and a time for every matter under heaven..."*).
+
+> This project is dedicated with all my heart to God, the source of all wisdom and inspiration, whose Word guides every step of this journey.
+
+---
+
+## 🎓 Audio-to-Text Module (Whisper)
+
+Convert spoken content into text with high precision.
+
+### How to Use
+
+1. Place your audio or video files in the `audio-to-text/input/` directory.
+2. Run the transcription script:
 
    ```bash
    uv run python audio-to-text/src/transcriber.py
    ```
 
-Os arquivos de texto gerados com timestamps aparecerão na pasta `output/`.
+The generated text files with timestamps will appear in `audio-to-text/output/`.
+
+### Quality Settings
+
+Control the trade-off between speed and accuracy by adjusting the `MODEL_SIZE` variable in `config.py`:
+
+* **`tiny`**: Fastest, lowest accuracy
+* **`base`**: Balanced
+* **`small`**: Slower, higher accuracy
+* **`medium`**: Slower still, higher accuracy
+* **`large`**: Slowest, highest accuracy
 
 ---
 
-## 🎚️ Controle de Qualidade e Velocidade
+## 🔊 Text-to-Audio Module (gTTS)
 
-Você pode ajustar o equilíbrio entre qualidade e velocidade escolhendo entre diferentes modelos do Whisper na variável `MODEL_SIZE` do arquivo `config.py`.
+Convert written text into natural speech.
 
-* **Modelos disponíveis (do menor para o maior):**
-  * `tiny` (mais rápido, menor precisão)
-  * `base` (balanceado)
-  * `small` (mais lento, maior precisão)
-  * `medium` (ainda mais lento, ainda maior precisão)
-  * `large` (o mais lento e mais preciso)
+### How to Use
+
+1. Add your text files (`.txt`) to the `text-to-audio/input/` directory.
+2. Execute the speaker script:
+
+   ```bash
+   uv run python text-to-audio/src/speaker.py
+   ```
+
+The resulting audio files (`.mp3`) will be saved in `text-to-audio/output/`.
+
+---
+
+## 🔐 Privacy & Security
+
+* **100% Local Processing:** All operations happen on your device. No data leaves your computer.
+* **No Paywalls:** Built entirely on free, open-source technologies.
+* **Unlimited Use:** No file size limits, no usage quotas, no hidden costs.
+
+---
+
+## 👥 Contributing
+
+Contributions are welcome! Whether you want to improve performance, add new features, or help with documentation, your input is valuable. Feel free to open an issue or submit a pull request.
+
+---
+
+## 📄 License
+
+This project is open-source and available under the MIT License.
