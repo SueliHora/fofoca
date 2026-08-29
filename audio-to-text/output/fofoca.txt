@@ -1,0 +1,18 @@
+[00:00] A apresentação da fofoca.
+[00:02] Mas quem é que não gosta de uma fofoca bem feita?
+[00:05] Mas calma, não é aquela que a dona Maricotinha faz na janela não.
+[00:09] É a fofoca, o transcritor de áudio feito para quem tem vídeo ou áudio para estudar.
+[00:15] Mas não aguenta mais tentar usar as ferramentas gratuitas da internet
+[00:19] e esbarrar naqueles avisos chatos.
+[00:22] Torne-se premium.
+[00:24] Você atingiu o limite gratuito.
+[00:26] Ou o tamanho máximo do arquivo foi acedido.
+[00:30] Com a fofoca, não tem isso não.
+[00:32] Ela transcreve tudo localmente na sua máquina.
+[00:35] E o melhor, o tamanho e a quantidade de transcrições são totalmente ilimitados.
+[00:42] Quer conhecer o projeto?
+[00:44] Dá uma olhada no meu GitHub Hub.
+[00:46] Faça o seu fork e não esqueça de deixar uma estrelinha como agradecimento.
+[00:51] Pode usar a vontade.
+[00:52] Mas claro, não esqueça de dar os créditos acreadora.
+[00:56] Sueli da hora moreira.
