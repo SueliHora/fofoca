@@ -1,6 +1,6 @@
 <div align="center">
   <p align="right">
-    <a href="./README.md">English</a> | <b>Português</b>
+    <a href="./README.md">[Read in English 🇺🇸]</a> | <b>Português 🇧🇷</b>
   </p>
 
   <img src="assets/logo.png" alt="Fofoca Transcriptor Logo" width="200">
@@ -22,9 +22,21 @@
 
 O **Fofoca Transcriptor** é um ecossistema modular desenvolvido em Python para realizar **transcrição de áudio/vídeo** e **síntese de voz neural (Text-to-Speech)** diretamente em hardware local. A arquitetura elimina a necessidade de conexões com serviços em nuvem, assinaturas pagas, limites de chamadas de API e restrições no tamanho dos arquivos.
 
+### 🏛️ Arquitetura do Ecossistema
+
+```mermaid
+graph TD
+    A[Input Media File / Text] --> B{Gradio UI / CLI Entrypoint}
+    B -->|ASR Task| C[Whisper Subsystem]
+    C -->|Local PyTorch Processing| D[Structured .txt + Timestamps]
+    B -->|TTS Task| E[Piper ONNX Subsystem]
+    E -->|Local Model pt_BR / en_US| F[Synthesized .wav Audio]
+```
+
 ### 💡 Motivação e Objetivos de Engenharia
 
 O projeto foi concebido para resolver gargalos práticos no processamento de gravações técnicas extensas (como palestras e conferências de mais de 2 horas sobre RAG e LLMs):
+
 * **Sem Restrições de Duração ou Tamanho:** Ferramentas gratuitas online impõem limites diários rígidos e falham ao processar arquivos longos. O Fofoca Transcriptor processa gravações de qualquer tamanho sem restrições.
 * **Privacidade Absoluta dos Dados:** Zero tráfego de rede externo para inferência. Todo o material transcrito e sintetizado permanece confidencial no ambiente local.
 * **Autonomia e Baixo Custo:** Substituição de plataformas proprietárias recorrentes por modelos neurais de código aberto de última geração executados localmente.
@@ -36,6 +48,7 @@ O projeto foi concebido para resolver gargalos práticos no processamento de gra
 A aplicação oferece uma interface gráfica web moderna e responsiva construída com **Gradio**, organizada em dois fluxos de trabalho especializados:
 
 ### 🎙️ 1. Módulo Audio-to-Text (Whisper)
+>
 > Reconhecimento automático de fala (ASR) de alta precisão com suporte a múltiplos formatos de mídia, seleção modular de modelos e geração de timestamps sincronizados.
 
 <div align="center">
@@ -45,6 +58,7 @@ A aplicação oferece uma interface gráfica web moderna e responsiva construíd
 <br>
 
 ### 🔊 2. Módulo Text-to-Audio (Piper TTS)
+>
 > Síntese de voz neural local ultrarrápida utilizando modelos ONNX otimizados, com reprodução direta no navegador e exportação para arquivos `.wav`.
 
 <div align="center">
@@ -73,13 +87,23 @@ A aplicação oferece uma interface gráfica web moderna e responsiva construíd
 ## 🛠️ Tecnologias Utilizadas
 
 | Componente | Tecnologia | Finalidade |
-|---|---|---|
+| --- | --- | --- |
 | **Linguagem** | Python 3.12+ | Ambiente de execução principal |
 | **Interface Web** | Gradio 6.x | Interface gráfica interativa no navegador |
 | **Motor de ASR** | OpenAI Whisper | Reconhecimento de fala e alinhamento de timestamps |
 | **Motor de TTS** | Piper TTS | Síntese de voz neural local via runtime ONNX |
 | **Deep Learning** | PyTorch & TorchAudio | Computação tensorial e processamento de áudio |
 | **Gerenciamento de Pacotes** | uv / pip | Resolução determinística de dependências |
+| **Testes Automatizados** | pytest | Validação contínua da suíte de testes |
+
+---
+
+## 📚 Documentação Técnica & Especificações
+
+Para aprofundamento na arquitetura, decisões técnicas e requisitos do produto:
+
+* 📄 **[Documento de Requisitos de Produto (PRD)](./docs/PRD.md)**: Objetivos do produto, personas, requisitos funcionais e não-funcionais.
+* 🏛️ **[Documento de Arquitetura Técnica](./docs/ARCHITECTURE.md)**: Detalhamento de subsistemas, diagramas de sequência e estratégia de persistência em disco.
 
 ---
 
@@ -87,6 +111,8 @@ A aplicação oferece uma interface gráfica web moderna e responsiva construíd
 
 ```text
 fofoca/
+├── .github/workflows/       # Workflows de Integração Contínua (CI)
+│   └── ci.yml               # Execução automatizada de testes com uv & pytest
 ├── assets/                  # Identidade visual e screenshots da interface
 │   ├── logo.png             # Logotipo do projeto
 │   ├── telaAT.jpg           # Screenshot do módulo Audio-to-Text
@@ -95,6 +121,9 @@ fofoca/
 │   ├── input/               # Diretório de entrada para arquivos de mídia
 │   ├── output/              # Transcrições salvas (.txt)
 │   └── src/                 # Script de transcrição via Whisper (transcriber.py)
+├── docs/                    # Documentação técnica e de engenharia
+│   ├── ARCHITECTURE.md      # Arquitetura detalhada do sistema
+│   └── PRD.md               # Product Requirements Document
 ├── text-to-audio/           # Subsistema de Síntese de Voz
 │   ├── input/               # Diretório de entrada para arquivos de texto (.txt)
 │   ├── models/              # Modelos neurais ONNX e metadados JSON
@@ -104,6 +133,9 @@ fofoca/
 │   │   └── en_US-lessac-medium.onnx.json
 │   ├── output/              # Áudios gerados (.wav)
 │   └── src/                 # Script de síntese de voz (speaker.py)
+├── tests/                   # Testes unitários e de integração
+│   └── test_basic.py        # Validações estruturais e de módulos
+├── .env.example             # Modelo de variáveis de ambiente
 ├── app.py                   # Interface Gráfica Gradio
 ├── main.py                  # Ponto de entrada CLI
 ├── pyproject.toml           # Configuração de pacote e dependências
@@ -130,6 +162,12 @@ cd fofoca
 
 ### 2. Configurar o Ambiente Virtual e Instalar Dependências
 
+#### Utilizando `uv` (Recomendado)
+
+```bash
+uv sync
+```
+
 #### Utilizando `pip`
 
 ```bash
@@ -144,12 +182,6 @@ python -m venv .venv
 
 # Instalar dependências do projeto
 pip install .
-```
-
-#### Utilizando `uv` (Recomendado)
-
-```bash
-uv sync
 ```
 
 ### 3. Baixar os Modelos de Voz Neurais (se necessário)
@@ -169,13 +201,46 @@ curl -L -o "text-to-audio/models/en_US-lessac-medium.onnx.json" "https://hugging
 Execute o servidor Gradio:
 
 ```bash
-python app.py
+uv run python app.py
 ```
 
-*(ou `uv run python app.py`)*
+*(ou `python app.py`)*
 
 Abra seu navegador e acesse:
 👉 **[http://localhost:7860](http://localhost:7860)**
+
+### 5. Executar os Testes Automatizados
+
+Rode a suíte de testes com `pytest`:
+
+```bash
+uv run pytest -v
+```
+
+---
+
+## ⚖️ Decisões de Engenharia & Lições Aprendidas
+
+### 1. Processamento 100% Local vs. APIs em Nuvem
+
+* **A Decisão:** Executar inferência neural exclusivamente em hardware local (Whisper + Piper ONNX) em vez de consumir APIs pagas de terceiros (como OpenAI API ou ElevenLabs).
+* **Os Trade-offs:**
+  * **Vantagens:** Privacidade irrestrita dos dados (isolamento air-gapped), custo contínuo zero e ausência de limites arbitrários de tempo ou tamanho de arquivo.
+  * **Considerações:** A velocidade e a capacidade de processamento dependem diretamente do hardware local (núcleos de CPU, memória RAM e GPU disponível). Modelos maiores do Whisper (`medium`, `large`) demandam maior alocação de memória se comparados a servidores em nuvem.
+
+### 2. Adoção do `uv` vs. `pip` Tradicional
+
+* **A Decisão:** Utilizar o gerenciador `uv` da Astral como padrão principal do repositório para resolução e sincronização de dependências.
+* **Os Trade-offs:**
+  * **Vantagens:** Resolução e download de pacotes ordens de magnitude mais rápidos (escrito em Rust), lockfile determinístico (`uv.lock`) e facilidade no gerenciamento de versões do Python.
+  * **Considerações:** Requer instalação do binário `uv` pelo desenvolvedor, mantendo no entanto total compatibilidade com `pip` via `pyproject.toml`.
+
+### 3. Gradio vs. Frameworks Frontend Complexos (React / Vue / Next.js)
+
+* **A Decisão:** Adotar a interface gráfica baseada em componentes Gradio Blocks em detrimento de uma arquitetura separada de frontend/backend.
+* **Os Trade-offs:**
+  * **Vantagens:** Velocidade máxima de desenvolvimento e entrega, integração nativa com o ciclo de vida do Python, suporte automático a streaming de áudio/mídia e zero overhead de pipelines JavaScript/Node.js.
+  * **Considerações:** Customizações visuais hiperespecíficas são limitadas pelos componentes nativos do Gradio, sendo mitigadas via injeção de CSS personalizado no layout.
 
 ---
 

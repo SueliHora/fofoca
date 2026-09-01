@@ -1,6 +1,6 @@
 <div align="center">
   <p align="right">
-    <b>English</b> | <a href="./README_pt.md">Português</a>
+    <b>English 🇺🇸</b> | <a href="./README_pt.md">[Read in Portuguese 🇧🇷]</a>
   </p>
 
   <img src="assets/logo.png" alt="Fofoca Transcriptor Logo" width="200">
@@ -21,6 +21,17 @@
 ## 📖 About the Project
 
 **Fofoca Transcriptor** is a modular Python toolkit engineered for **audio/video transcription** and **neural text-to-speech synthesis** executing entirely on local infrastructure. It eliminates external cloud dependencies, subscription barriers, API rate limits, and file size constraints.
+
+### 🏛️ High-Level Ecosystem Architecture
+
+```mermaid
+graph TD
+    A[Input Media File / Text] --> B{Gradio UI / CLI Entrypoint}
+    B -->|ASR Task| C[Whisper Subsystem]
+    C -->|Local PyTorch Processing| D[Structured .txt + Timestamps]
+    B -->|TTS Task| E[Piper ONNX Subsystem]
+    E -->|Local Model pt_BR / en_US| F[Synthesized .wav Audio]
+```
 
 ### 💡 Motivation & Architecture Goals
 
@@ -80,6 +91,15 @@ The application offers an intuitive and responsive graphical user interface buil
 | **TTS Engine** | Piper TTS | Neural speech synthesis via ONNX runtime |
 | **Deep Learning** | PyTorch & TorchAudio | Tensor computation & media processing backend |
 | **Package Management** | uv / pip | Deterministic dependency resolution |
+| **Testing** | pytest | Automated test suite |
+
+---
+
+## 📚 Technical Documentation & Specs
+
+For detailed technical specifications, design documents, and product requirements:
+* 📄 **[Product Requirements Document (PRD)](./docs/PRD.md)**: Product goals, functional/non-functional requirements, target personas, and validation metrics.
+* 🏛️ **[Technical Architecture Document](./docs/ARCHITECTURE.md)**: Detailed component interactions, sequence diagrams, and persistence strategy.
 
 ---
 
@@ -87,6 +107,8 @@ The application offers an intuitive and responsive graphical user interface buil
 
 ```text
 fofoca/
+├── .github/workflows/       # Continuous Integration workflows
+│   └── ci.yml               # Automated test runner with uv & pytest
 ├── assets/                  # Brand assets and UI preview captures
 │   ├── logo.png             # Project emblem
 │   ├── telaAT.jpg           # Audio-to-Text tab screenshot
@@ -95,6 +117,9 @@ fofoca/
 │   ├── input/               # Staging area for raw audio/video files
 │   ├── output/              # Processed transcription transcripts (.txt)
 │   └── src/                 # Whisper processing script (transcriber.py)
+├── docs/                    # Architectural & engineering documentation
+│   ├── ARCHITECTURE.md      # Detailed system architecture and data flows
+│   └── PRD.md               # Product Requirements Document
 ├── text-to-audio/           # Speech synthesis subsystem
 │   ├── input/               # Source text files (.txt)
 │   ├── models/              # Neural ONNX voice models & JSON definitions
@@ -104,6 +129,9 @@ fofoca/
 │   │   └── en_US-lessac-medium.onnx.json
 │   ├── output/              # Synthesized audio files (.wav)
 │   └── src/                 # Synthesis script (speaker.py)
+├── tests/                   # Automated unit & integration tests
+│   └── test_basic.py        # Structural and module validation tests
+├── .env.example             # Configuration template
 ├── app.py                   # Gradio Web Application
 ├── main.py                  # CLI Entrypoint
 ├── pyproject.toml           # Package configuration & dependencies
@@ -130,6 +158,12 @@ cd fofoca
 
 ### 2. Set Up Environment & Install Dependencies
 
+#### Using `uv` (Recommended)
+
+```bash
+uv sync
+```
+
 #### Using `pip`
 
 ```bash
@@ -144,12 +178,6 @@ python -m venv .venv
 
 # Install dependencies
 pip install .
-```
-
-#### Using `uv` (Recommended)
-
-```bash
-uv sync
 ```
 
 ### 3. Fetch Neural Voice Models (If Not Present)
@@ -169,13 +197,43 @@ curl -L -o "text-to-audio/models/en_US-lessac-medium.onnx.json" "https://hugging
 Launch the Gradio server:
 
 ```bash
-python app.py
+uv run python app.py
 ```
 
-*(or `uv run python app.py`)*
+*(or `python app.py`)*
 
 Open your browser and navigate to:
 👉 **[http://localhost:7860](http://localhost:7860)**
+
+### 5. Running Tests
+
+Execute the automated test suite with `pytest`:
+
+```bash
+uv run pytest -v
+```
+
+---
+
+## ⚖️ Trade-offs & Lessons Learned
+
+### 1. 100% Local Processing vs. Cloud-Based SaaS APIs
+* **The Decision:** Deploying local neural models (Whisper + Piper ONNX) instead of delegating inference to cloud endpoints (such as OpenAI Whisper API or ElevenLabs).
+* **The Trade-offs:**
+  * **Advantages:** Absolute data privacy (air-gapped compliance), zero ongoing per-minute costs, and no artificial caps on file size or recording duration.
+  * **Considerations:** Inference speed and throughput depend directly on host machine resources (CPU cores, RAM, and GPU availability). Larger Whisper models (`medium`, `large`) demand significant VRAM/RAM compared to instantaneous remote cloud workers.
+
+### 2. Modern Package Management (`uv`) vs. Traditional `pip`
+* **The Decision:** Adopting `uv` as the primary workspace dependency manager and lockfile engine.
+* **The Trade-offs:**
+  * **Advantages:** 10x-100x faster package resolution and installation times, deterministic environment locking (`uv.lock`), and unified Python version management across multiple operating systems.
+  * **Considerations:** Requires contributors to install `uv`, although standard `pip` remains fully backward-compatible via `pyproject.toml`.
+
+### 3. Gradio vs. Heavy Custom Frontend Frameworks (React / Vue / Next.js)
+* **The Decision:** Building the graphical user interface with Gradio's Blocks API rather than decoupling into a separate Node.js/React frontend.
+* **The Trade-offs:**
+  * **Advantages:** Extremely high engineering velocity, native Python state handling, seamless media streaming (audio player, file uploads), and zero JavaScript build pipeline overhead.
+  * **Considerations:** While Gradio is ideal for AI/ML desktop and web prototypes, highly customized pixel-level micro-interactions are constrained by Gradio's component architecture, mitigated by custom CSS injection.
 
 ---
 
