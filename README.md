@@ -1,16 +1,30 @@
 <div align="center">
   <img src="./logo.png" alt="Fofoca Transcriptor Logo" width="200">
   <h1>🦭 Fofoca Transcriptor</h1>
-  <p><b>A local, free, and smart ecosystem for audio, video, and text processing.</b></p>
+  <p><b>A 100% offline, local, free, and smart ecosystem for audio, video, and text processing.</b></p>
   <p><i>Created by <b>Sueli da Hora Moreira</b></i></p>
   <p>Designed for productivity, privacy, autonomy, and language studies without paywalls or size limits.</p>
 </div>
 
 ---
 
+## 📖 The Origin Story
+
+This project was not born in a classroom or from a generic tutorial. It was built to solve a real-world bottleneck: after missing a critical 2-hour lecture on RAG (Retrieval-Augmented Generation) and LLMs, I faced a series of classic infrastructure walls:
+
+* No free online transcription service accepted a file of that duration and size.
+* When I tried splitting the audio, I immediately hit restrictive daily processing limits.
+* Paid transcription tools were outside my budget for a personal study need.
+
+So I built my own solution — **open source, local, private, and completely free of arbitrary limits**.
+
+Later, I expanded the ecosystem to include text-to-speech synthesis for studying English pronunciation and listening to materials on the go. **Fofoca Transcriptor** is the result: a personal, modular toolkit for audio processing designed for total autonomy.
+
+---
+
 ## 🚀 About the Project
 
-**Fofoca Transcriptor** is a personal, modular toolkit built in Python to handle media transcription and text-to-speech synthesis entirely offline. Powered by state-of-the-art open-source AI models, it gives you complete control over your files, running safely right on your local machine.
+**Fofoca Transcriptor** is a personal, modular toolkit built in Python to handle media transcription and text-to-speech synthesis **100% offline**. Powered by state-of-the-art open-source AI models, it gives you complete control over your files, running safely right on your local machine with zero cloud dependencies or external API calls.
 
 ---
 
@@ -22,8 +36,8 @@ The repository is organized into independent, modular subprojects:
    * **Engine:** OpenAI Whisper
    * **Features:** Intelligent transcription of audio and video files into precise text, complete with timestamps and zero cloud costs.
 2. **`text-to-audio/`**
-   * **Engine:** gTTS (Google Text-to-Speech)
-   * **Features:** Converts raw text files into natural-sounding audio (.mp3), ideal for listening on the go or practicing languages.
+   * **Engine:** Piper TTS (Offline Fast Neural TTS)
+   * **Features:** Converts raw text files into high-quality, natural-sounding audio (`.wav`) locally using ONNX neural voice models (supporting Portuguese and English), ideal for listening on the go or practicing languages.
 
 ---
 
@@ -34,12 +48,17 @@ fofoca/
 ├── assets/           # Project visual assets
 ├── audio-to-text/
 │   ├── input/        # Place your source audio/video files here
-│   ├── output/       # Generated transcripts
-│   └── src/          # Transcription scripts
+│   ├── output/       # Generated transcripts (.txt)
+│   └── src/          # Transcription scripts (Whisper)
 ├── text-to-audio/
-│   ├── input/        # Text documents (.txt) to be spoken
-│   ├── output/       # Generated audio files (.mp3)
-│   └── src/          # Text-to-speech scripts
+│   ├── input/        # Text documents (.txt) to be converted into speech
+│   ├── models/       # Local ONNX voice models & JSON configs (Piper TTS)
+│   │   ├── pt_BR-faber-medium.onnx
+│   │   ├── pt_BR-faber-medium.onnx.json
+│   │   ├── en_US-lessac-medium.onnx
+│   │   └── en_US-lessac-medium.onnx.json
+│   ├── output/       # Generated local audio files (.wav)
+│   └── src/          # Text-to-speech synthesis scripts (Piper TTS)
 ├── logo.png          # Project logo
 ├── pyproject.toml    # Project dependencies and configuration (managed by uv)
 └── README.md         # Project documentation
@@ -51,9 +70,9 @@ fofoca/
 
 ### Prerequisites
 
-* Python 3.10+
+* Python 3.12+
 * FFmpeg (for audio/video processing)
-* uv (dependency manager)
+* [uv](https://github.com/astral-sh/uv) (fast Python package manager)
 
 ### Installation
 
@@ -61,6 +80,18 @@ fofoca/
 
    ```bash
    uv sync
+   ```
+
+2. (Optional) Download voice models for Piper TTS (if not already present):
+
+   ```bash
+   # Portuguese (pt_BR)
+   curl -L -o "text-to-audio/models/pt_BR-faber-medium.onnx" "https://huggingface.co/rhasspy/piper-voices/resolve/main/pt/pt_BR/faber/medium/pt_BR-faber-medium.onnx"
+   curl -L -o "text-to-audio/models/pt_BR-faber-medium.onnx.json" "https://huggingface.co/rhasspy/piper-voices/resolve/main/pt/pt_BR/faber/medium/pt_BR-faber-medium.onnx.json"
+
+   # English (en_US)
+   curl -L -o "text-to-audio/models/en_US-lessac-medium.onnx" "https://huggingface.co/rhasspy/piper-voices/resolve/main/en/en_US/lessac/medium/en_US-lessac-medium.onnx"
+   curl -L -o "text-to-audio/models/en_US-lessac-medium.onnx.json" "https://huggingface.co/rhasspy/piper-voices/resolve/main/en/en_US/lessac/medium/en_US-lessac-medium.onnx.json"
    ```
 
 ---
@@ -88,21 +119,11 @@ Convert spoken content into text with high precision.
 
 The generated text files with timestamps will appear in `audio-to-text/output/`.
 
-### Quality Settings
-
-Control the trade-off between speed and accuracy by adjusting the `MODEL_SIZE` variable in `config.py`:
-
-* **`tiny`**: Fastest, lowest accuracy
-* **`base`**: Balanced
-* **`small`**: Slower, higher accuracy
-* **`medium`**: Slower still, higher accuracy
-* **`large`**: Slowest, highest accuracy
-
 ---
 
-## 🔊 Text-to-Audio Module (gTTS)
+## 🔊 Text-to-Audio Module (Piper TTS)
 
-Convert written text into natural speech.
+Convert written text into natural speech **100% offline** using local neural ONNX models.
 
 ### How to Use
 
@@ -113,15 +134,22 @@ Convert written text into natural speech.
    uv run python text-to-audio/src/speaker.py
    ```
 
-The resulting audio files (`.mp3`) will be saved in `text-to-audio/output/`.
+The resulting audio files (`.wav`) will be saved in `text-to-audio/output/`.
+
+### Language & Voice Models
+
+The module automatically maps languages to offline ONNX models:
+
+* **Portuguese (`pt` / `pt_br`)**: `pt_BR-faber-medium.onnx`
+* **English (`en` / `en_us`)**: `en_US-lessac-medium.onnx`
 
 ---
 
 ## 🔐 Privacy & Security
 
 * **100% Local Processing:** All operations happen on your device. No data leaves your computer.
-* **No Paywalls:** Built entirely on free, open-source technologies.
-* **Unlimited Use:** No file size limits, no usage quotas, no hidden costs.
+* **No Cloud / No Paywalls:** Built entirely on free, open-source technologies without subscriptions.
+* **Unlimited Use:** No file size limits, no usage quotas, no restrictive daily caps.
 
 ---
 
