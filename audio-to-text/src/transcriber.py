@@ -1,4 +1,5 @@
 import os
+
 import whisper
 
 SUPPORTED_VIDEOS = (".mp4", ".mkv", ".mov", ".avi")
@@ -44,7 +45,7 @@ def transcribe_media(media_path, output_dir="output"):
                 text = segment["text"].strip()
                 f.write(f"{timestamp_str} {text}\n")
 
-        print(f"\n[Success] Transcription finished with timestamps! 🦭✨")
+        print("\n[Success] Transcription finished with timestamps! 🦭✨")
         print(f"Saved at: {output_txt_path}\n" + "-"*50)
 
     except Exception as e:

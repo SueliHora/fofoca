@@ -2,7 +2,7 @@ import os
 import sys
 from datetime import datetime
 from pathlib import Path
-from typing import Optional, Tuple
+
 import gradio as gr
 import whisper
 
@@ -20,7 +20,8 @@ TEXT_TO_AUDIO_DIR = ROOT_DIR / "text-to-audio"
 AUDIO_TO_TEXT_DIR = ROOT_DIR / "audio-to-text"
 
 sys.path.insert(0, str(TEXT_TO_AUDIO_DIR / "src"))
-from speaker import synthesize_text_to_wav, DEFAULT_MODELS_DIR, DEFAULT_OUTPUT_DIR as TTS_OUTPUT_DIR
+from speaker import DEFAULT_MODELS_DIR, synthesize_text_to_wav
+from speaker import DEFAULT_OUTPUT_DIR as TTS_OUTPUT_DIR
 
 WHISPER_OUTPUT_DIR = AUDIO_TO_TEXT_DIR / "output"
 WHISPER_OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
@@ -38,10 +39,10 @@ def get_whisper_model(model_name: str = "base"):
 
 
 def process_audio_to_text(
-    file_path_str: Optional[str],
+    file_path_str: str | None,
     model_size: str = "base",
     include_timestamps: bool = True,
-) -> Tuple[str, Optional[str], str]:
+) -> tuple[str, str | None, str]:
     """
     Transcribes uploaded audio or video using local OpenAI Whisper.
     """
@@ -87,14 +88,14 @@ def process_audio_to_text(
         return transcription_text, str(output_txt_path), status_msg
 
     except Exception as e:
-        error_msg = f"❌ **Erro durante a transcrição:** `{str(e)}`"
+        error_msg = f"❌ **Erro durante a transcrição:** `{e!s}`"
         return "", None, error_msg
 
 
 def process_text_to_audio(
     text: str,
     language_code: str = "pt",
-) -> Tuple[Optional[str], Optional[str], str]:
+) -> tuple[str | None, str | None, str]:
     """
     Synthesizes speech from raw text using local Piper TTS (.wav output).
     """
@@ -124,7 +125,7 @@ def process_text_to_audio(
         return str(output_wav_path), str(output_wav_path), status_msg
 
     except Exception as e:
-        error_msg = f"❌ **Erro na síntese de áudio:** `{str(e)}`"
+        error_msg = f"❌ **Erro na síntese de áudio:** `{e!s}`"
         return None, None, error_msg
 
 

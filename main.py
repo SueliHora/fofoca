@@ -2,9 +2,10 @@
 Fofoca™ Transcriptor - Main Entry Point
 Author: Sueli da Hora Moreira
 """
-import sys
-from app import demo, CUSTOM_CSS
 import gradio as gr
+
+from app import CUSTOM_CSS, demo
+
 
 def main():
     print("🦭 Iniciando Fofoca™ Transcriptor Web UI...")

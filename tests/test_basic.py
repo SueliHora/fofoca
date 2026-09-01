@@ -1,6 +1,6 @@
 import sys
 from pathlib import Path
-import pytest
+
 import gradio as gr
 
 # Ensure root directory and subsystem paths are in sys.path
@@ -54,9 +54,10 @@ def test_essential_documentation_exists():
 
 def test_module_imports():
     """Validates that core application and subsystem modules can be imported."""
-    import app
     import speaker
     import transcriber
+
+    import app
 
     assert hasattr(app, "create_app")
     assert hasattr(speaker, "synthesize_text_to_wav")

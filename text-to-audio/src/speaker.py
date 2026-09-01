@@ -1,8 +1,7 @@
-import os
 import sys
 import wave
 from pathlib import Path
-from typing import Optional
+
 from piper.voice import PiperVoice
 
 # Ensure UTF-8 output encoding for terminals (especially Windows cp1252)
@@ -30,7 +29,7 @@ MODEL_MAP = {
 }
 
 
-def get_model_path(language: str = "pt", models_dir: Optional[Path] = None) -> Path:
+def get_model_path(language: str = "pt", models_dir: Path | None = None) -> Path:
     """Resolves the ONNX model file path for the requested language."""
     models_dir = Path(models_dir) if models_dir else DEFAULT_MODELS_DIR
     lang_key = language.strip().lower().replace("-", "_")
@@ -56,7 +55,7 @@ def synthesize_text_to_wav(
     text: str,
     output_wav_path: str | Path,
     language: str = "pt",
-    models_dir: Optional[Path] = None,
+    models_dir: Path | None = None,
 ) -> Path:
     """
     Synthesizes speech from raw text using Piper TTS (100% offline) and saves as a .wav file.
@@ -87,10 +86,10 @@ def synthesize_text_to_wav(
 
 def convert_text_to_speech(
     txt_path: str | Path,
-    output_dir: Optional[str | Path] = None,
+    output_dir: str | Path | None = None,
     language: str = "pt",
-    models_dir: Optional[Path] = None,
-) -> Optional[Path]:
+    models_dir: Path | None = None,
+) -> Path | None:
     """Reads a text file and converts it into a local WAV audio file using Piper TTS."""
     txt_file = Path(txt_path)
     target_output_dir = Path(output_dir) if output_dir else DEFAULT_OUTPUT_DIR
@@ -115,7 +114,7 @@ def convert_text_to_speech(
             models_dir=models_dir,
         )
 
-        print(f"\n[Success] Audio generated successfully! 🦭✨")
+        print("\n[Success] Audio generated successfully! 🦭✨")
         print(f"Saved at: {output_wav_path}\n" + "-" * 50)
         return output_wav_path
 
@@ -124,7 +123,7 @@ def convert_text_to_speech(
         return None
 
 
-def get_all_text_files(input_dir: Optional[str | Path] = None) -> list[Path]:
+def get_all_text_files(input_dir: str | Path | None = None) -> list[Path]:
     """Finds all valid .txt files inside the input directory."""
     target_input_dir = Path(input_dir) if input_dir else DEFAULT_INPUT_DIR
     if not target_input_dir.exists():
