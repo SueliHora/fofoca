@@ -1,164 +1,190 @@
 <div align="center">
-  <img src="./logo.png" alt="Fofoca Transcriptor Logo" width="200">
-  <h1>🦭 Fofoca Transcriptor</h1>
-  <p><b>A 100% offline, local, free, and smart ecosystem for audio, video, and text processing.</b></p>
-  <p><i>Created by <b>Sueli da Hora Moreira</b></i></p>
-  <p>Designed for productivity, privacy, autonomy, and language studies without paywalls or size limits.</p>
+  <p align="right">
+    <b>English</b> | <a href="./README_pt.md">Português</a>
+  </p>
+
+  <img src="assets/logo.png" alt="Fofoca Transcriptor Logo" width="200">
+  <h1>Fofoca Transcriptor</h1>
+  <p><b>An Intelligent, 100% Offline Ecosystem for Media Transcription and Neural Speech Synthesis</b></p>
+
+  [![Python](https://img.shields.io/badge/Python-3.12+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
+  [![Gradio](https://img.shields.io/badge/Gradio-6.0+-FF7C00?style=for-the-badge&logo=gradio&logoColor=white)](https://gradio.app/)
+  [![Whisper](https://img.shields.io/badge/OpenAI-Whisper-412991?style=for-the-badge&logo=openai&logoColor=white)](https://github.com/openai/whisper)
+  [![Piper TTS](https://img.shields.io/badge/Piper-TTS_Offline-0284C7?style=for-the-badge)](https://github.com/rhasspy/piper)
+  [![License: MIT](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
+
+  <p><i>Engineered by <b>Sueli da Hora Moreira</b></i></p>
 </div>
 
 ---
 
-## 📖 The Origin Story
+## 📖 About the Project
 
-This project was not born in a classroom or from a generic tutorial. It was built to solve a real-world bottleneck: after missing a critical 2-hour lecture on RAG (Retrieval-Augmented Generation) and LLMs, I faced a series of classic infrastructure walls:
+**Fofoca Transcriptor** is a modular Python toolkit engineered for **audio/video transcription** and **neural text-to-speech synthesis** executing entirely on local infrastructure. It eliminates external cloud dependencies, subscription barriers, API rate limits, and file size constraints.
 
-* No free online transcription service accepted a file of that duration and size.
-* When I tried splitting the audio, I immediately hit restrictive daily processing limits.
-* Paid transcription tools were outside my budget for a personal study need.
+### 💡 Motivation & Architecture Goals
 
-So I built my own solution — **open source, local, private, and completely free of arbitrary limits**.
-
-Later, I expanded the ecosystem to include text-to-speech synthesis for studying English pronunciation and listening to materials on the go. **Fofoca Transcriptor** is the result: a personal, modular toolkit for audio processing designed for total autonomy.
-
----
-
-## 🚀 About the Project
-
-**Fofoca Transcriptor** is a personal, modular toolkit built in Python to handle media transcription and text-to-speech synthesis **100% offline**. Powered by state-of-the-art open-source AI models, it gives you complete control over your files, running safely right on your local machine with zero cloud dependencies or external API calls.
+The project was designed to address common friction points encountered when processing extensive technical audio recordings (such as 2+ hour lectures on LLMs and RAG architectures):
+* **No File Size or Duration Limits:** Standard web tools impose restrictive daily caps and fail on long audio files. Fofoca Transcriptor processes files of any size without restriction.
+* **100% Data Privacy:** Zero outbound network traffic for inference. All media, transcripts, and audio files remain strictly confidential on the local machine.
+* **Cost Efficiency & Autonomy:** Replaces recurring paid transcription services with state-of-the-art open-source neural models running on consumer hardware.
 
 ---
 
-## 🛠️ Modules & Architecture
+## 🖼️ Interface Demonstration
 
-The repository is organized into independent, modular subprojects:
+The application offers an intuitive and responsive graphical user interface built with **Gradio**, divided into two specialized workflows:
 
-1. **`audio-to-text/`**
-   * **Engine:** OpenAI Whisper
-   * **Features:** Intelligent transcription of audio and video files into precise text, complete with timestamps and zero cloud costs.
-2. **`text-to-audio/`**
-   * **Engine:** Piper TTS (Offline Fast Neural TTS)
-   * **Features:** Converts raw text files into high-quality, natural-sounding audio (`.wav`) locally using ONNX neural voice models (supporting Portuguese and English), ideal for listening on the go or practicing languages.
+### 🎙️ 1. Audio-to-Text Module (Whisper)
+> High-accuracy automatic speech recognition (ASR) supporting standard audio and video formats, multi-tier model selection, and synchronized timestamp generation.
+
+<div align="center">
+  <img src="assets/telaAT.jpg" alt="Audio-to-Text Interface with Whisper" width="900">
+</div>
+
+<br>
+
+### 🔊 2. Text-to-Audio Module (Piper TTS)
+> Fast local neural text-to-speech synthesis using optimized ONNX runtime voice models, featuring instantaneous browser playback and `.wav` export.
+
+<div align="center">
+  <img src="assets/telaTA.jpg" alt="Text-to-Audio Interface with Piper TTS" width="900">
+</div>
 
 ---
 
-## 📂 Project Structure
+## ✨ Key Capabilities
+
+* 🔒 **Local & Air-Gapped Execution:** Full offline inference for both speech-to-text and text-to-speech workflows.
+* 🎯 **OpenAI Whisper Transcription Engine:**
+  * Configurable model granularity: `tiny`, `base`, `small`, `medium`, and `large`.
+  * Automatic language identification across 90+ languages.
+  * Segmented timestamp formatting (`[MM:SS]`) for seamless navigation.
+  * One-click clipboard copy and automated `.txt` export.
+* 🗣️ **Piper Neural TTS Engine:**
+  * High-performance local ONNX voice models:
+    * **Portuguese (pt_BR):** `pt_BR-faber-medium`
+    * **English (en_US):** `en_US-lessac-medium`
+  * Direct audio streaming and `.wav` download.
+* 🗂️ **Clean Codebase & Extensibility:** Decoupled CLI modules (`transcriber.py`, `speaker.py`) unified under a production-ready Gradio entrypoint (`app.py`).
+
+---
+
+## 🛠️ Tech Stack
+
+| Component | Technology | Purpose |
+|---|---|---|
+| **Language** | Python 3.12+ | Core runtime environment |
+| **Web Interface** | Gradio 6.x | Interactive browser UI |
+| **ASR Engine** | OpenAI Whisper | Automatic speech recognition & timestamp alignment |
+| **TTS Engine** | Piper TTS | Neural speech synthesis via ONNX runtime |
+| **Deep Learning** | PyTorch & TorchAudio | Tensor computation & media processing backend |
+| **Package Management** | uv / pip | Deterministic dependency resolution |
+
+---
+
+## 📂 Directory Structure
 
 ```text
 fofoca/
-├── assets/           # Project visual assets
-├── audio-to-text/
-│   ├── input/        # Place your source audio/video files here
-│   ├── output/       # Generated transcripts (.txt)
-│   └── src/          # Transcription scripts (Whisper)
-├── text-to-audio/
-│   ├── input/        # Text documents (.txt) to be converted into speech
-│   ├── models/       # Local ONNX voice models & JSON configs (Piper TTS)
+├── assets/                  # Brand assets and UI preview captures
+│   ├── logo.png             # Project emblem
+│   ├── telaAT.jpg           # Audio-to-Text tab screenshot
+│   └── telaTA.jpg           # Text-to-Audio tab screenshot
+├── audio-to-text/           # Transcription subsystem
+│   ├── input/               # Staging area for raw audio/video files
+│   ├── output/              # Processed transcription transcripts (.txt)
+│   └── src/                 # Whisper processing script (transcriber.py)
+├── text-to-audio/           # Speech synthesis subsystem
+│   ├── input/               # Source text files (.txt)
+│   ├── models/              # Neural ONNX voice models & JSON definitions
 │   │   ├── pt_BR-faber-medium.onnx
 │   │   ├── pt_BR-faber-medium.onnx.json
 │   │   ├── en_US-lessac-medium.onnx
 │   │   └── en_US-lessac-medium.onnx.json
-│   ├── output/       # Generated local audio files (.wav)
-│   └── src/          # Text-to-speech synthesis scripts (Piper TTS)
-├── logo.png          # Project logo
-├── pyproject.toml    # Project dependencies and configuration (managed by uv)
-└── README.md         # Project documentation
+│   ├── output/              # Synthesized audio files (.wav)
+│   └── src/                 # Synthesis script (speaker.py)
+├── app.py                   # Gradio Web Application
+├── main.py                  # CLI Entrypoint
+├── pyproject.toml           # Package configuration & dependencies
+├── README.md                # Documentation (English)
+└── README_pt.md             # Documentation (Português)
 ```
 
 ---
 
-## 🔧 Getting Started
+## 🚀 Local Installation & Setup
 
 ### Prerequisites
 
-* Python 3.12+
-* FFmpeg (for audio/video processing)
-* [uv](https://github.com/astral-sh/uv) (fast Python package manager)
+* **Python 3.12** or newer
+* **FFmpeg** installed and added to the system `PATH`
+* **Git**
 
-### Installation
+### 1. Clone the Repository
 
-1. Initialize the Python environment and install dependencies:
+```bash
+git clone https://github.com/SueliHora/fofoca.git
+cd fofoca
+```
 
-   ```bash
-   uv sync
-   ```
+### 2. Set Up Environment & Install Dependencies
 
-2. (Optional) Download voice models for Piper TTS (if not already present):
+#### Using `pip`
 
-   ```bash
-   # Portuguese (pt_BR)
-   curl -L -o "text-to-audio/models/pt_BR-faber-medium.onnx" "https://huggingface.co/rhasspy/piper-voices/resolve/main/pt/pt_BR/faber/medium/pt_BR-faber-medium.onnx"
-   curl -L -o "text-to-audio/models/pt_BR-faber-medium.onnx.json" "https://huggingface.co/rhasspy/piper-voices/resolve/main/pt/pt_BR/faber/medium/pt_BR-faber-medium.onnx.json"
+```bash
+# Create and activate virtual environment
+python -m venv .venv
 
-   # English (en_US)
-   curl -L -o "text-to-audio/models/en_US-lessac-medium.onnx" "https://huggingface.co/rhasspy/piper-voices/resolve/main/en/en_US/lessac/medium/en_US-lessac-medium.onnx"
-   curl -L -o "text-to-audio/models/en_US-lessac-medium.onnx.json" "https://huggingface.co/rhasspy/piper-voices/resolve/main/en/en_US/lessac/medium/en_US-lessac-medium.onnx.json"
-   ```
+# Windows (PowerShell)
+.venv\Scripts\Activate.ps1
 
----
+# Linux / macOS
+# source .venv/bin/activate
 
-## 📖 Sample Data & Dedication
+# Install dependencies
+pip install .
+```
 
-As an example of our Text-to-Speech pipeline, this repository includes a sample reading of Ecclesiastes 3 (*"For everything there is a season, and a time for every matter under heaven..."*).
+#### Using `uv` (Recommended)
 
-> This project is dedicated with all my heart to God, the source of all wisdom and inspiration, whose Word guides every step of this journey.
+```bash
+uv sync
+```
 
----
+### 3. Fetch Neural Voice Models (If Not Present)
 
-## 🎓 Audio-to-Text Module (Whisper)
+```bash
+# Brazilian Portuguese Model (pt_BR - Faber)
+curl -L -o "text-to-audio/models/pt_BR-faber-medium.onnx" "https://huggingface.co/rhasspy/piper-voices/resolve/main/pt/pt_BR/faber/medium/pt_BR-faber-medium.onnx"
+curl -L -o "text-to-audio/models/pt_BR-faber-medium.onnx.json" "https://huggingface.co/rhasspy/piper-voices/resolve/main/pt/pt_BR/faber/medium/pt_BR-faber-medium.onnx.json"
 
-Convert spoken content into text with high precision.
+# American English Model (en_US - Lessac)
+curl -L -o "text-to-audio/models/en_US-lessac-medium.onnx" "https://huggingface.co/rhasspy/piper-voices/resolve/main/en/en_US/lessac/medium/en_US-lessac-medium.onnx"
+curl -L -o "text-to-audio/models/en_US-lessac-medium.onnx.json" "https://huggingface.co/rhasspy/piper-voices/resolve/main/en/en_US/lessac/medium/en_US-lessac-medium.onnx.json"
+```
 
-### How to Use
+### 4. Run the Application
 
-1. Place your audio or video files in the `audio-to-text/input/` directory.
-2. Run the transcription script:
+Launch the Gradio server:
 
-   ```bash
-   uv run python audio-to-text/src/transcriber.py
-   ```
+```bash
+python app.py
+```
 
-The generated text files with timestamps will appear in `audio-to-text/output/`.
+*(or `uv run python app.py`)*
 
----
-
-## 🔊 Text-to-Audio Module (Piper TTS)
-
-Convert written text into natural speech **100% offline** using local neural ONNX models.
-
-### How to Use
-
-1. Add your text files (`.txt`) to the `text-to-audio/input/` directory.
-2. Execute the speaker script:
-
-   ```bash
-   uv run python text-to-audio/src/speaker.py
-   ```
-
-The resulting audio files (`.wav`) will be saved in `text-to-audio/output/`.
-
-### Language & Voice Models
-
-The module automatically maps languages to offline ONNX models:
-
-* **Portuguese (`pt` / `pt_br`)**: `pt_BR-faber-medium.onnx`
-* **English (`en` / `en_us`)**: `en_US-lessac-medium.onnx`
+Open your browser and navigate to:
+👉 **[http://localhost:7860](http://localhost:7860)**
 
 ---
 
-## 🔐 Privacy & Security
+## 📜 License
 
-* **100% Local Processing:** All operations happen on your device. No data leaves your computer.
-* **No Cloud / No Paywalls:** Built entirely on free, open-source technologies without subscriptions.
-* **Unlimited Use:** No file size limits, no usage quotas, no restrictive daily caps.
+This project is licensed under the [MIT License](LICENSE).
 
 ---
 
-## 👥 Contributing
-
-Contributions are welcome! Whether you want to improve performance, add new features, or help with documentation, your input is valuable. Feel free to open an issue or submit a pull request.
-
----
-
-## 📄 License
-
-This project is open-source and available under the MIT License.
+<div align="center">
+  <p>Created by <b>Sueli da Hora Moreira</b></p>
+</div>
