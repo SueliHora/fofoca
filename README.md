@@ -43,14 +43,14 @@ The project was designed to address common friction points encountered when proc
 
 ---
 
-### 📸 Demonstração da Interface & Modos de Operação
+### 📸 Application Interface & Operational Modes
 
-A aplicação oferece uma interface gráfica intuitiva desenvolvida em Gradio, operando 100% local, privada e dividida em dois fluxos especializados:
+The application features an intuitive graphical interface built with Gradio, operating 100% locally and privately, divided into two specialized workflows:
 
-| 🎙️ Módulo 1: Audio-to-Text (Whisper Local) | 🔊 Módulo 2: Text-to-Audio (Piper TTS Local) |
+| 🎙️ Module 1: Audio-to-Text (Local Whisper) | 🔊 Module 2: Text-to-Audio (Local Piper TTS) |
 | :---: | :---: |
-| <img src="assets/telaAT.jpg" alt="Transcrição com Whisper" width="100%"> | <img src="assets/telaTA.jpg" alt="Síntese com Piper TTS" width="100%"> |
-| **Reconhecimento automático de fala com timestamps precisos [MM:SS]** | **Síntese neural de voz multibilíngue com player interativo** |
+| <img src="assets/telaAT.jpg" alt="Audio-to-Text Transcription with Whisper" width="100%"> | <img src="assets/telaTA.jpg" alt="Voice Synthesis with Piper TTS" width="100%"> |
+| **Automatic speech recognition with precise timestamps [MM:SS]** | **Multilingual neural speech synthesis with interactive audio player** |
 
 ---
 
