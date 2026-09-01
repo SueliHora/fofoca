@@ -27,11 +27,11 @@ O **Fofoca Transcriptor** é um ecossistema modular desenvolvido em Python para 
 
 ```mermaid
 graph TD
-    A[Input Media File / Text] --> B{Gradio UI / CLI Entrypoint}
-    B -->|ASR Task| C[Whisper Subsystem]
-    C -->|Local PyTorch Processing| D[Structured .txt + Timestamps]
-    B -->|TTS Task| E[Piper ONNX Subsystem]
-    E -->|Local Model pt_BR / en_US| F[Synthesized .wav Audio]
+    A["Input Media File / Text"] --> B["Gradio UI / CLI Entrypoint"]
+    B -->|ASR Task| C["Whisper Subsystem"]
+    C -->|Local PyTorch Processing| D["Structured .txt + Timestamps"]
+    B -->|TTS Task| E["Piper ONNX Subsystem"]
+    E -->|Local Model pt_BR / en_US| F["Synthesized .wav Audio"]
 ```
 
 ### 💡 Motivação e Objetivos de Engenharia
@@ -43,25 +43,14 @@ O projeto foi concebido para resolver gargalos práticos no processamento de gra
 
 ---
 
-## 🖼️ Demonstração da Interface
+### 📸 Demonstração da Interface & Modos de Operação
 
-A aplicação oferece uma interface gráfica web moderna e responsiva construída com **Gradio**, organizada em dois fluxos de trabalho especializados:
+A aplicação oferece uma interface gráfica intuitiva desenvolvida em Gradio, operando 100% local, privada e dividida em dois fluxos especializados:
 
-### 🎙️ 1. Módulo Audio-to-Text (Whisper)
-> Reconhecimento automático de fala (ASR) de alta precisão com suporte a múltiplos formatos de mídia, seleção modular de modelos e geração de timestamps sincronizados.
-
-<div align="center">
-  <img src="assets/telaAT.jpg" alt="Interface Audio-to-Text com Whisper" width="900">
-</div>
-
-<br>
-
-### 🔊 2. Módulo Text-to-Audio (Piper TTS)
-> Síntese de voz neural local ultrarrápida utilizando modelos ONNX otimizados, com reprodução direta no navegador e exportação para arquivos `.wav`.
-
-<div align="center">
-  <img src="assets/telaTA.jpg" alt="Interface Text-to-Audio com Piper TTS" width="900">
-</div>
+| 🎙️ Módulo 1: Audio-to-Text (Whisper Local) | 🔊 Módulo 2: Text-to-Audio (Piper TTS Local) |
+| :---: | :---: |
+| <img src="assets/telaAT.jpg" alt="Transcrição com Whisper" width="100%"> | <img src="assets/telaTA.jpg" alt="Síntese com Piper TTS" width="100%"> |
+| **Reconhecimento automático de fala com timestamps precisos [MM:SS]** | **Síntese neural de voz multibilíngue com player interativo** |
 
 ---
 
@@ -170,28 +159,10 @@ git clone https://github.com/SueliHora/fofoca.git
 cd fofoca
 ```
 
-### 2. Configurar o Ambiente Virtual e Instalar Dependências
-
-#### Utilizando `uv` (Recomendado)
+### 2. Configurar o Ambiente Virtual e Instalar Dependências (uv)
 
 ```bash
 uv sync --dev
-```
-
-#### Utilizando `pip`
-
-```bash
-# Criar e ativar o ambiente virtual
-python -m venv .venv
-
-# Windows (PowerShell)
-.venv\Scripts\Activate.ps1
-
-# Linux / macOS
-# source .venv/bin/activate
-
-# Instalar dependências do projeto
-pip install .
 ```
 
 ### 3. Baixar os Modelos de Voz Neurais (se necessário)
@@ -213,8 +184,6 @@ Execute o servidor Gradio:
 ```bash
 uv run python app.py
 ```
-
-*(ou `python app.py`)*
 
 Abra seu navegador e acesse:
 👉 **[http://localhost:7860](http://localhost:7860)**

@@ -27,11 +27,11 @@
 
 ```mermaid
 graph TD
-    A[Input Media File / Text] --> B{Gradio UI / CLI Entrypoint}
-    B -->|ASR Task| C[Whisper Subsystem]
-    C -->|Local PyTorch Processing| D[Structured .txt + Timestamps]
-    B -->|TTS Task| E[Piper ONNX Subsystem]
-    E -->|Local Model pt_BR / en_US| F[Synthesized .wav Audio]
+    A["Input Media File / Text"] --> B["Gradio UI / CLI Entrypoint"]
+    B -->|ASR Task| C["Whisper Subsystem"]
+    C -->|Local PyTorch Processing| D["Structured .txt + Timestamps"]
+    B -->|TTS Task| E["Piper ONNX Subsystem"]
+    E -->|Local Model pt_BR / en_US| F["Synthesized .wav Audio"]
 ```
 
 ### 💡 Motivation & Architecture Goals
@@ -43,14 +43,14 @@ The project was designed to address common friction points encountered when proc
 
 ---
 
-### 📸 Interface da Aplicação & Modos de Operação
+### 📸 Demonstração da Interface & Modos de Operação
 
-O **Fofoca Transcriptor** oferece uma interface gráfica intuitiva desenvolvida em Gradio, operando 100% local, privada e dividida em dois fluxos especializados:
+A aplicação oferece uma interface gráfica intuitiva desenvolvida em Gradio, operando 100% local, privada e dividida em dois fluxos especializados:
 
 | 🎙️ Módulo 1: Audio-to-Text (Whisper Local) | 🔊 Módulo 2: Text-to-Audio (Piper TTS Local) |
 | :---: | :---: |
-| <img src="assets/telaAT.jpg" alt="Transcrição de Áudio com Whisper" width="100%"> | <img src="assets/telaTA.jpg" alt="Síntese de Voz com Piper TTS" width="100%"> |
-| **Reconhecimento automático de fala com timestamps precisos [MM:SS]** | **Síntese neural de voz multibilíngue com player interativo e exportação WAV** |
+| <img src="assets/telaAT.jpg" alt="Transcrição com Whisper" width="100%"> | <img src="assets/telaTA.jpg" alt="Síntese com Piper TTS" width="100%"> |
+| **Reconhecimento automático de fala com timestamps precisos [MM:SS]** | **Síntese neural de voz multibilíngue com player interativo** |
 
 ---
 
@@ -161,28 +161,10 @@ git clone https://github.com/SueliHora/fofoca.git
 cd fofoca
 ```
 
-### 2. Set Up Environment & Install Dependencies
-
-#### Using `uv` (Recommended)
+### 2. Set Up Environment & Install Dependencies (uv)
 
 ```bash
 uv sync --dev
-```
-
-#### Using `pip`
-
-```bash
-# Create and activate virtual environment
-python -m venv .venv
-
-# Windows (PowerShell)
-.venv\Scripts\Activate.ps1
-
-# Linux / macOS
-# source .venv/bin/activate
-
-# Install dependencies
-pip install .
 ```
 
 ### 3. Fetch Neural Voice Models (If Not Present)
@@ -204,8 +186,6 @@ Launch the Gradio server:
 ```bash
 uv run python app.py
 ```
-
-*(or `python app.py`)*
 
 Open your browser and navigate to:
 👉 **[http://localhost:7860](http://localhost:7860)**
