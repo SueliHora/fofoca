@@ -43,25 +43,14 @@ The project was designed to address common friction points encountered when proc
 
 ---
 
-## 🖼️ Interface Demonstration
+### 📸 Interface da Aplicação & Modos de Operação
 
-The application offers an intuitive and responsive graphical user interface built with **Gradio**, divided into two specialized workflows:
+O **Fofoca Transcriptor** oferece uma interface gráfica intuitiva desenvolvida em Gradio, operando 100% local, privada e dividida em dois fluxos especializados:
 
-### 🎙️ 1. Audio-to-Text Module (Whisper)
-> High-accuracy automatic speech recognition (ASR) supporting standard audio and video formats, multi-tier model selection, and synchronized timestamp generation.
-
-<div align="center">
-  <img src="assets/telaAT.jpg" alt="Audio-to-Text Interface with Whisper" width="900">
-</div>
-
-<br>
-
-### 🔊 2. Text-to-Audio Module (Piper TTS)
-> Fast local neural text-to-speech synthesis using optimized ONNX runtime voice models, featuring instantaneous browser playback and `.wav` export.
-
-<div align="center">
-  <img src="assets/telaTA.jpg" alt="Text-to-Audio Interface with Piper TTS" width="900">
-</div>
+| 🎙️ Módulo 1: Audio-to-Text (Whisper Local) | 🔊 Módulo 2: Text-to-Audio (Piper TTS Local) |
+| :---: | :---: |
+| <img src="assets/telaAT.jpg" alt="Transcrição de Áudio com Whisper" width="100%"> | <img src="assets/telaTA.jpg" alt="Síntese de Voz com Piper TTS" width="100%"> |
+| **Reconhecimento automático de fala com timestamps precisos [MM:SS]** | **Síntese neural de voz multibilíngue com player interativo e exportação WAV** |
 
 ---
 
