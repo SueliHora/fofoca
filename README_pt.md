@@ -37,6 +37,7 @@ graph TD
 ### 💡 Motivação e Objetivos de Engenharia
 
 O projeto foi concebido para resolver gargalos práticos no processamento de gravações técnicas extensas (como palestras e conferências de mais de 2 horas sobre RAG e LLMs):
+
 * **Sem Restrições de Duração ou Tamanho:** Ferramentas gratuitas online impõem limites diários rígidos e falham ao processar arquivos longos. O Fofoca Transcriptor processa gravações de qualquer tamanho sem restrições.
 * **Privacidade Absoluta dos Dados:** Zero tráfego de rede externo para inferência. Todo o material transcrito e sintetizado permanece confidencial no ambiente local.
 * **Autonomia e Baixo Custo:** Substituição de plataformas proprietárias recorrentes por modelos neurais de código aberto de última geração executados localmente.
@@ -74,7 +75,7 @@ A aplicação oferece uma interface gráfica intuitiva desenvolvida em Gradio, o
 ## 📊 Métricas de Impacto & Resultados
 
 | Métrica / Dimensão | APIs Proprietárias SaaS | Fofoca Transcriptor (Local) | Impacto de Engenharia |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | **Custo Financeiro Recorrente** | ~$0,006 - $0,024 / min | **R$ 0,00 (Zero)** | **100% de redução de custo SaaS** para processamento ilimitado |
 | **Telemetria e Tráfego Externo** | 100% enviado para a nuvem | **0 MB (Air-Gapped)** | Conformidade absoluta com LGPD/GDPR e sigilo total |
 | **Teto de Duração de Arquivo** | Frequentemente limitado a 20–30 min | **Ilimitado (Validado 2h+)** | Sem rejeição de payloads em gravações extensas |
@@ -86,7 +87,7 @@ A aplicação oferece uma interface gráfica intuitiva desenvolvida em Gradio, o
 ## 🛠️ Tecnologias Utilizadas
 
 | Componente | Tecnologia | Finalidade |
-|---|---|---|
+| --- | --- | --- |
 | **Linguagem** | Python 3.12+ | Ambiente de execução principal |
 | **Interface Web** | Gradio 6.x | Interface gráfica interativa no navegador |
 | **Motor de ASR** | OpenAI Whisper | Reconhecimento de fala e alinhamento de timestamps |
@@ -101,6 +102,7 @@ A aplicação oferece uma interface gráfica intuitiva desenvolvida em Gradio, o
 ## 📚 Documentação Técnica & Especificações
 
 Para aprofundamento na arquitetura, decisões técnicas e requisitos do produto:
+
 * 📄 **[Documento de Requisitos de Produto (PRD)](./docs/PRD.md)**: Objetivos do produto, personas, requisitos funcionais e não-funcionais.
 * 🏛️ **[Documento de Arquitetura Técnica](./docs/ARCHITECTURE.md)**: Detalhamento de subsistemas, diagramas de sequência e estratégia de persistência em disco.
 * 🤝 **[Guia de Contribuição (Contributing)](./CONTRIBUTING.md)**: Fluxo de branches, padrões de código e checklist para pull requests.
@@ -205,18 +207,21 @@ uv run pytest -v
 ## ⚖️ Decisões de Engenharia & Lições Aprendidas
 
 ### 1. Processamento 100% Local vs. APIs em Nuvem
+
 * **A Decisão:** Executar inferência neural exclusivamente em hardware local (Whisper + Piper ONNX) em vez de consumir APIs pagas de terceiros (como OpenAI API ou ElevenLabs).
 * **Os Trade-offs:**
   * **Vantagens:** Privacidade irrestrita dos dados (isolamento air-gapped), custo contínuo zero e ausência de limites arbitrários de tempo ou tamanho de arquivo.
   * **Considerações:** A velocidade e a capacidade de processamento dependem diretamente do hardware local (núcleos de CPU, memória RAM e GPU disponível). Modelos maiores do Whisper (`medium`, `large`) demandam maior alocação de memória se comparados a servidores em nuvem.
 
 ### 2. Adoção do `uv` vs. `pip` Tradicional
+
 * **A Decisão:** Utilizar o gerenciador `uv` da Astral como padrão principal do repositório para resolução e sincronização de dependências.
 * **Os Trade-offs:**
   * **Vantagens:** Resolução e download de pacotes ordens de magnitude mais rápidos (escrito em Rust), lockfile determinístico (`uv.lock`) e facilidade no gerenciamento de versões do Python.
   * **Considerações:** Requer instalação do binário `uv` pelo desenvolvedor, mantendo no entanto total compatibilidade com `pip` via `pyproject.toml`.
 
 ### 3. Gradio vs. Frameworks Frontend Complexos (React / Vue / Next.js)
+
 * **A Decisão:** Adotar a interface gráfica baseada em componentes Gradio Blocks em detrimento de uma arquitetura separada de frontend/backend.
 * **Os Trade-offs:**
   * **Vantagens:** Velocidade máxima de desenvolvimento e entrega, integração nativa com o ciclo de vida do Python, suporte automático a streaming de áudio/mídia e zero overhead de pipelines JavaScript/Node.js.

@@ -37,6 +37,7 @@ graph TD
 ### 💡 Motivation & Architecture Goals
 
 The project was designed to address common friction points encountered when processing extensive technical audio recordings (such as 2+ hour lectures on LLMs and RAG architectures):
+
 * **No File Size or Duration Limits:** Standard web tools impose restrictive daily caps and fail on long audio files. Fofoca Transcriptor processes files of any size without restriction.
 * **100% Data Privacy:** Zero outbound network traffic for inference. All media, transcripts, and audio files remain strictly confidential on the local machine.
 * **Cost Efficiency & Autonomy:** Replaces recurring paid transcription services with state-of-the-art open-source neural models running on consumer hardware.
@@ -74,7 +75,7 @@ The application features an intuitive graphical interface built with Gradio, ope
 ## 📊 Key Metrics & Engineering Impact
 
 | Metric / Dimension | Commercial SaaS APIs | Fofoca Transcriptor (Local) | Engineering Impact |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | **Recurring Financial Cost** | ~$0.006 - $0.024 / min | **$0.00 (Zero)** | **100% SaaS cost reduction** for unlimited media processing |
 | **Outbound Data Telemetry** | 100% sent to external servers | **0 MB (Air-Gapped)** | Total data sovereignty & GDPR/LGPD compliance |
 | **Maximum File Duration** | Typically capped at 20–30 min | **Unlimited (Tested 2h+)** | Zero pipeline rejection on large technical lectures |
@@ -86,7 +87,7 @@ The application features an intuitive graphical interface built with Gradio, ope
 ## 🛠️ Tech Stack
 
 | Component | Technology | Purpose |
-|---|---|---|
+| --- | --- | --- |
 | **Language** | Python 3.12+ | Core runtime environment |
 | **Web Interface** | Gradio 6.x | Interactive browser UI |
 | **ASR Engine** | OpenAI Whisper | Automatic speech recognition & timestamp alignment |
@@ -101,6 +102,7 @@ The application features an intuitive graphical interface built with Gradio, ope
 ## 📚 Technical Documentation & Specs
 
 For detailed technical specifications, design documents, and product requirements:
+
 * 📄 **[Product Requirements Document (PRD)](./docs/PRD.md)**: Product goals, functional/non-functional requirements, target personas, and validation metrics.
 * 🏛️ **[Technical Architecture Document](./docs/ARCHITECTURE.md)**: Detailed component interactions, sequence diagrams, and persistence strategy.
 * 🤝 **[Contributing Guidelines](./CONTRIBUTING.md)**: Development workflow, coding standards, and pull request checklist.
@@ -207,18 +209,21 @@ uv run pytest -v
 ## ⚖️ Trade-offs & Lessons Learned
 
 ### 1. 100% Local Processing vs. Cloud-Based SaaS APIs
+
 * **The Decision:** Deploying local neural models (Whisper + Piper ONNX) instead of delegating inference to cloud endpoints (such as OpenAI Whisper API or ElevenLabs).
 * **The Trade-offs:**
   * **Advantages:** Absolute data privacy (air-gapped compliance), zero ongoing per-minute costs, and no artificial caps on file size or recording duration.
   * **Considerations:** Inference speed and throughput depend directly on host machine resources (CPU cores, RAM, and GPU availability). Larger Whisper models (`medium`, `large`) demand significant VRAM/RAM compared to instantaneous remote cloud workers.
 
 ### 2. Modern Package Management (`uv`) vs. Traditional `pip`
+
 * **The Decision:** Adopting `uv` as the primary workspace dependency manager and lockfile engine.
 * **The Trade-offs:**
   * **Advantages:** 10x-100x faster package resolution and installation times, deterministic environment locking (`uv.lock`), and unified Python version management across multiple operating systems.
   * **Considerations:** Requires contributors to install `uv`, although standard `pip` remains fully backward-compatible via `pyproject.toml`.
 
 ### 3. Gradio vs. Heavy Custom Frontend Frameworks (React / Vue / Next.js)
+
 * **The Decision:** Building the graphical user interface with Gradio's Blocks API rather than decoupling into a separate Node.js/React frontend.
 * **The Trade-offs:**
   * **Advantages:** Extremely high engineering velocity, native Python state handling, seamless media streaming (audio player, file uploads), and zero JavaScript build pipeline overhead.
