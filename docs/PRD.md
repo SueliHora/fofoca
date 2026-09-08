@@ -74,9 +74,10 @@ Modern audio/video transcription and speech synthesis workflows are predominantl
 * **NFR-2.1 (Model Caching):** Implement in-memory model caching to avoid expensive reload latencies across repeated user requests.
 * **NFR-2.2 (Hardware Acceleration):** Utilize PyTorch and ONNX Runtime backends capable of leveraging CUDA/ROCm when available, with seamless fallback to CPU vector execution.
 
-### 5.3 Modern Tooling & Packaging
+### 5.3 Modern Tooling, Packaging & Portability
 * **NFR-3.1 (Deterministic Dependency Resolution):** Fully integrated with `uv` for ultra-fast lockfile resolution, virtual environment provisioning, and reproducible builds.
 * **NFR-3.2 (Standard Compliance):** Comply with PEP 517, PEP 518, and PEP 621 specifications via `pyproject.toml`.
+* **NFR-3.3 (Containerization & Deployment Portability):** Provide production-grade containerization via optimized `Dockerfile` and `docker-compose.yml` leveraging official Astral `uv` base images. Must package native system runtimes (`ffmpeg` for Whisper ASR and `espeak-ng` for Piper TTS) to guarantee zero-configuration cross-platform reproducibility and one-command execution (`docker compose up --build`).
 
 ### 5.4 Maintainability & Quality Assurance
 * **NFR-4.1 (Unit Testing Suite):** Test coverage verifying directory structural integrity, module importability, and model mapping configurations via `pytest`.

@@ -135,8 +135,12 @@ fofoca/
 │   │   └── en_US-lessac-medium.onnx.json
 ├── tests/                   # Testes unitários e de integração
 │   └── test_basic.py        # Validações estruturais e de módulos
+├── .dockerignore            # Regras de exclusão para o build do Docker
 ├── .env.example             # Modelo de variáveis de ambiente
-├── CONTRIBUTING.md          # Guia de contribuição
+├── CONTRIBUTING.md          # Guia de contribuição (Inglês)
+├── CONTRIBUTING_pt.md       # Guia de contribuição (Português)
+├── Dockerfile               # Configuração do container Docker (uv + FFmpeg + espeak-ng)
+├── docker-compose.yml       # Orquestração do serviço e persistência de volumes
 ├── app.py                   # Interface Gráfica Gradio
 ├── main.py                  # Ponto de entrada CLI
 ├── pyproject.toml           # Configuração de pacote e dependências
@@ -146,7 +150,33 @@ fofoca/
 
 ---
 
-## 🚀 Como Executar o Projeto Localmente
+## 🐳 Início Rápido com Docker (Recomendado)
+
+Execute a aplicação completa com todas as dependências nativas (Python 3.12, Astral `uv`, `FFmpeg` e `espeak-ng`) isoladas e pré-configuradas em um único comando:
+
+```bash
+# 1. Clonar o repositório
+git clone https://github.com/SueliHora/fofoca.git
+cd fofoca
+
+# 2. Construir a imagem e iniciar o container
+docker compose up --build
+```
+
+Acesse a interface web no seu navegador:
+👉 **[http://localhost:7860](http://localhost:7860)**
+
+> [!TIP]
+>
+> * **Rodar em segundo plano (detached mode):** `docker compose up -d --build`
+> * **Visualizar logs do container:** `docker compose logs -f`
+> * **Parar e remover o container:** `docker compose down`
+> * **Executar transcrição em lote via CLI no container:** `docker compose exec fofoca-app python audio-to-text/src/transcriber.py`
+> * **Executar síntese de voz via CLI no container:** `docker compose exec fofoca-app python text-to-audio/src/speaker.py`
+
+---
+
+## 🚀 Como Executar o Projeto Localmente (Sem Docker)
 
 ### Pré-requisitos
 

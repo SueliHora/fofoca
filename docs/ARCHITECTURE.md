@@ -57,6 +57,12 @@ The codebase is organized into three primary architectural tiers:
 * **Inference Engine:** Powered by **Piper TTS** built on top of the **ONNX Runtime (Open Neural Network Exchange)**. It utilizes lightweight neural acoustic and vocoder models (VITS architecture) to generate synthetic waveform audio with high computational efficiency.
 * **Model Mapping & Resolution:** Implements deterministic lookup across local ONNX model checkpoints (`pt_BR-faber-medium.onnx` and `en_US-lessac-medium.onnx`) and their corresponding `.onnx.json` phoneme dictionaries.
 
+### 2.4 Infrastructure & Container Layer (`Dockerfile`, `docker-compose.yml`)
+* **Base Runtime:** Built upon Astral's official image `ghcr.io/astral-sh/uv:python3.12-bookworm-slim`, providing Python 3.12, `uv` packaging, and minimal attack surface.
+* **System Runtime Dependencies:** Integrates OS-level `ffmpeg` (audio demuxing, decoding, and resampling) and `espeak-ng` (grapheme-to-phoneme phonemization for Piper TTS).
+* **High-Efficiency Caching:** Uses build cache mounts (`target=/root/.cache/uv`) with `uv sync --frozen --no-install-project` to separate external library installation from application code changes.
+* **Networking & Port Mapping:** Exposes port `7860:7860` for Gradio Web UI access, binding to `0.0.0.0` internally.
+
 ---
 
 ## 3. End-to-End Data Flow
@@ -140,3 +146,39 @@ fofoca/
 * **Zero Outbound Telemetry:** All inference computations occur strictly locally via PyTorch and ONNX Runtime. No customer data or audio segments are ever transmitted outside the host environment.
 * **No Cloud API Keys Required:** Unlike proprietary APIs, there is zero risk of credential leaks, rate limiting, or vendor lock-in.
 * **Clean Artifact Lifecycle:** All files written by the system remain strictly within the workspace folder hierarchy, ensuring easy auditing and compliance with enterprise data governance policies.
+
+---
+
+## 6. Infrastructure & Container Deployment Architecture
+
+The application provides a containerized deployment topology designed for zero-configuration portability and production readiness:
+
+```mermaid
+graph TD
+    HostUser([Host Browser / Terminal]) -->|Port 7860:7860| ContainerApp[Container: fofoca-app]
+    
+    subgraph "Docker Host Environment"
+        subgraph "Docker Container (fofoca-app)"
+            AppRuntime["Python 3.12 + Astral uv Environment"]
+            FFmpegBin["FFmpeg Binary (System)"]
+            EspeakBin["espeak-ng Binary (System)"]
+            GradioSrv["Gradio Web Server (0.0.0.0:7860)"]
+            InferenceUnits["Whisper (PyTorch) + Piper (ONNX)"]
+        end
+        
+        subgraph "Host Mounted Volumes (Bidirectional Persistence)"
+            HostAudioIn["./audio-to-text/input"] <-->|Mount| ContainerAudioIn["/app/audio-to-text/input"]
+            HostAudioOut["./audio-to-text/output"] <-->|Mount| ContainerAudioOut["/app/audio-to-text/output"]
+            HostTextIn["./text-to-audio/input"] <-->|Mount| ContainerTextIn["/app/text-to-audio/input"]
+            HostTextOut["./text-to-audio/output"] <-->|Mount| ContainerTextOut["/app/text-to-audio/output"]
+            HostModels["./text-to-audio/models"] <-->|Mount| ContainerModels["/app/text-to-audio/models"]
+            NamedCache["whisper-cache Volume"] <-->|Mount| ContainerCache["/root/.cache/whisper"]
+        end
+    end
+```
+
+### Key Architectural Characteristics:
+* **Isolation of Native Dependencies:** Eliminates host machine configuration discrepancies regarding FFmpeg or espeak-ng paths and binary versions across platforms.
+* **State & Artifact Segregation:** Input files, transcriptions (`.txt`), and synthesized audio (`.wav`) persist directly on the host file system via bind mounts, while downloaded Whisper neural weights persist in a dedicated Docker named volume (`whisper-cache`).
+* **Continuous Health Monitoring:** Built-in `HEALTHCHECK` queries the internal HTTP endpoint (`curl -f http://localhost:7860/`) every 30 seconds to guarantee service health within container orchestrators.
+
