@@ -1,0 +1,34 @@
+services:
+  fofoca-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: fofoca-app
+    restart: unless-stopped
+    ports:
+      - "7860:7860"
+    environment:
+      - GRADIO_SERVER_NAME=0.0.0.0
+      - GRADIO_SERVER_PORT=7860
+      - WHISPER_DEFAULT_MODEL=base
+      - PIPER_DEFAULT_LANGUAGE=pt
+      - PYTHONUNBUFFERED=1
+    volumes:
+      # Direct access to local input/output directories for files and transcripts
+      - ./audio-to-text/input:/app/audio-to-text/input
+      - ./audio-to-text/output:/app/audio-to-text/output
+      - ./text-to-audio/input:/app/text-to-audio/input
+      - ./text-to-audio/output:/app/text-to-audio/output
+      - ./text-to-audio/models:/app/text-to-audio/models
+      # Persist downloaded Whisper models across container restarts
+      - whisper-cache:/root/.cache/whisper
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:7860/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+
+volumes:
+  whisper-cache:
+    name: fofoca-whisper-cache

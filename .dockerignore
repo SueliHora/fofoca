@@ -1,0 +1,32 @@
+# Git
+.git/
+.gitignore
+
+# Python bytecode & caches
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.ruff_cache/
+
+# Virtual environments
+.venv/
+env/
+venv/
+
+# Environment files
+.env
+
+# Output media artifacts (persisted via Docker volumes)
+audio-to-text/output/*
+!audio-to-text/output/.gitkeep
+text-to-audio/output/*
+!text-to-audio/output/.gitkeep
+
+# IDEs & System files
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
