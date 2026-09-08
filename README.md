@@ -137,8 +137,12 @@ fofoca/
 │   └── src/                 # Synthesis script (speaker.py)
 ├── tests/                   # Automated unit & integration tests
 │   └── test_basic.py        # Structural and module validation tests
+├── .dockerignore            # Docker build context exclusions
 ├── .env.example             # Configuration template
-├── CONTRIBUTING.md          # Contribution guidelines
+├── CONTRIBUTING.md          # Contribution guidelines (English)
+├── CONTRIBUTING_pt.md       # Contribution guidelines (Português)
+├── Dockerfile               # Production Docker container definition (uv + FFmpeg + espeak-ng)
+├── docker-compose.yml       # Docker Compose service orchestration & volume persistence
 ├── app.py                   # Gradio Web Application
 ├── main.py                  # CLI Entrypoint
 ├── pyproject.toml           # Package configuration & dependencies
@@ -148,7 +152,33 @@ fofoca/
 
 ---
 
-## 🚀 Local Installation & Setup
+## 🐳 Quick Start with Docker (Recommended)
+
+Run the entire suite with all system dependencies (Python 3.12, Astral `uv`, `FFmpeg`, and `espeak-ng`) pre-configured inside an isolated container:
+
+```bash
+# 1. Clone the repository
+git clone https://github.com/SueliHora/fofoca.git
+cd fofoca
+
+# 2. Build and launch the container
+docker compose up --build
+```
+
+Access the Gradio Web UI in your browser:
+👉 **[http://localhost:7860](http://localhost:7860)**
+
+> [!TIP]
+>
+> * **Run in detached mode (background):** `docker compose up -d --build`
+> * **View container logs:** `docker compose logs -f`
+> * **Stop and remove container:** `docker compose down`
+> * **Run CLI batch transcription in container:** `docker compose exec fofoca-app python audio-to-text/src/transcriber.py`
+> * **Run CLI batch speech synthesis in container:** `docker compose exec fofoca-app python text-to-audio/src/speaker.py`
+
+---
+
+## 🚀 Local Installation & Setup (Without Docker)
 
 ### Prerequisites
 

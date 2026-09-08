@@ -2,6 +2,7 @@
 Fofoca™ Transcriptor - Main Entry Point
 Author: Sueli da Hora Moreira
 """
+
 import os
 
 import gradio as gr
