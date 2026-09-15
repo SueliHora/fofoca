@@ -11,3 +11,24 @@ wheels/
 
 # Notas internas (não versionar)
 INTERNAL_DEV_NOTES.md
+
+# Mídias e artefatos de áudio
+*.mp3
+*.wav
+*.m4a
+*.aac
+*.ogg
+*.flac
+
+# Mídias e artefatos de vídeo
+*.mp4
+*.mkv
+*.mov
+*.avi
+
+# Diretórios locais de saída e processamento
+text-to-audio/output/
+output/
+outputs/
+temp/
+*.tmp
